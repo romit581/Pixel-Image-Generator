@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXELFORGE | Image to Pixel Art</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for modern typography in controls -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-left">
+            <h1 class="logo">PIXELFORGE</h1>
+            <span class="subtitle">IMAGE &rarr; PIXEL ART</span>
+        </div>
+        <div class="header-right">
+            <span class="tagline">TURN IMAGES INTO NEW WORLDS</span>
+        </div>
+    </header>
+
+    <!-- HERO / BRAND AREA -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h2 class="hero-logo">PIXELFORGE</h2>
+            <div class="hero-subtitle">IMAGE &rarr; PIXEL ART</div>
+            <p class="hero-quote">"SAME MEMORIES. A SMALLER WORLD."</p>
+        </div>
+    </section>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="app-container">
+        
+        <!-- UPLOAD SCREEN -->
+        <section id="upload-view" class="upload-section active-view">
+            <div class="upload-box" id="upload-box">
+                <div class="upload-icon">📁</div>
+                <h3>DROP IMAGE HERE</h3>
+                <p>PNG &bull; JPG &bull; WEBP</p>
+                <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp, image/gif" hidden>
+                <button class="primary-btn" id="select-image-btn">SELECT IMAGE</button>
+            </div>
+        </section>
+
+        <!-- EDITOR SCREEN -->
+        <section id="editor-view" class="editor-section hidden-view">
+            
+            <!-- LEFT SIDEBAR -->
+            <aside class="sidebar-left">
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-card active">
+                        <span class="nav-title">Image to Pixel Art</span>
+                        <span class="nav-desc">Convert your images</span>
+                    </a>
+                    <a href="#" class="nav-card">
+                        <span class="nav-title">Palettes</span>
+                        <span class="nav-desc">Classic & custom</span>
+                    </a>
+                    <a href="#" class="nav-card">
+                        <span class="nav-title">Sprite Tools</span>
+                        <span class="nav-desc">More coming soon</span>
+                    </a>
+                    <a href="#" class="nav-card">
+                        <span class="nav-title">Gallery</span>
+                        <span class="nav-desc">Community creations</span>
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <p class="sidebar-quote">"Not just a filter.<br>A new perspective."</p>
+                </div>
+            </aside>
+
+            <!-- CENTER WORKSPACE -->
+            <div class="workspace-center">
+                
+                <div class="file-info-bar">
+                    <span id="filename-display">image.png</span>
+                    <span id="dimensions-display">1920 x 1080</span>
+                    <button id="remove-btn" class="text-btn">Remove</button>
+                </div>
+
+                <div class="canvas-container">
+                    <!-- Original Image Preview -->
+                    <div class="canvas-panel">
+                        <div class="panel-header">
+                            <h4>Original Image</h4>
+                            <span class="res-badge" id="orig-res">1x</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvas-original"></canvas>
+                        </div>
+                        <div class="canvas-controls">
+                            <button class="icon-btn zoom-in">➕</button>
+                            <button class="icon-btn zoom-out">➖</button>
+                            <button class="icon-btn fit-btn">Fit</button>
+                            <button class="icon-btn fill-btn">Fill</button>
+                        </div>
+                    </div>
+
+                    <!-- Pixel Art Preview -->
+                    <div class="canvas-panel">
+                        <div class="panel-header">
+                            <h4>Pixel Art Output</h4>
+                            <span class="res-badge" id="pixel-res">1x</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvas-pixelart"></canvas>
+                        </div>
+                        <div class="canvas-controls">
+                            <button class="icon-btn zoom-in">➕</button>
+                            <button class="icon-btn zoom-out">➖</button>
+                            <button class="icon-btn fit-btn">Fit</button>
+                            <button class="icon-btn fill-btn">Fill</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK PRESETS -->
+                <div class="presets-section">
+                    <h4>QUICK PRESETS</h4>
+                    <div class="preset-cards">
+                        <button class="preset-btn active" data-preset="original">Original</button>
+                        <button class="preset-btn" data-preset="8bit">8-bit</button>
+                        <button class="preset-btn" data-preset="gameboy">Game Boy</button>
+                        <button class="preset-btn" data-preset="snes">SNES</button>
+                        <button class="preset-btn" data-preset="nes">NES</button>
+                        <button class="preset-btn" data-preset="mono">Monochrome</button>
+                        <button class="preset-btn" data-preset="high-contrast">High Contrast</button>
+                        <button class="preset-btn" data-preset="vibrant">Vibrant</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT ADJUSTMENTS PANEL -->
+            <aside class="sidebar-right">
+                <div class="panel-header">
+                    <h3>ADJUSTMENTS</h3>
+                    <button id="reset-btn" class="text-btn text-accent">RESET</button>
+                </div>
+
+                <div class="control-group">
+                    <label for="pixel-size">Pixel Size: <span id="pixel-size-val">8</span></label>
+                    <input type="range" id="pixel-size" min="1" max="32" value="8" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="color-count">Color Count: <span id="color-count-val">32</span></label>
+                    <input type="range" id="color-count" min="2" max="256" value="32" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="palette">Palette</label>
+                    <select id="palette">
+                        <option value="original">Original</option>
+                        <option value="gameboy">Game Boy</option>
+                        <option value="nes">NES</option>
+                        <option value="snes">SNES Classic</option>
+                        <option value="mono">Monochrome</option>
+                        <option value="grayscale">Grayscale</option>
+                        <option value="vibrant">Vibrant</option>
+                    </select>
+                </div>
+
+                <div class="control-group toggle-group">
+                    <label for="dithering">Dithering</label>
+                    <label class="switch">
+                        <input type="checkbox" id="dithering">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label for="contrast">Contrast: <span id="contrast-val">100</span>%</label>
+                    <input type="range" id="contrast" min="0" max="200" value="100" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="saturation">Saturation: <span id="saturation-val">100</span>%</label>
+                    <input type="range" id="saturation" min="0" max="200" value="100" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="brightness">Brightness: <span id="brightness-val">100</span>%</label>
+                    <input type="range" id="brightness" min="0" max="200" value="100" step="1">
+                </div>
+
+                <hr class="panel-divider">
+
+                <div class="export-section">
+                    <h3>EXPORT</h3>
+                    
+                    <div class="control-group">
+                        <label for="export-format">Format:</label>
+                        <select id="export-format">
+                            <option value="image/png">PNG</option>
+                            <option value="image/jpeg">JPG</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="export-scale">Scale:</label>
+                        <select id="export-scale">
+                            <option value="1">1x</option>
+                            <option value="2">2x</option>
+                            <option value="4" selected>4x</option>
+                            <option value="8">8x</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group checkbox-group">
+                        <input type="checkbox" id="transparent-bg" checked>
+                        <label for="transparent-bg">Transparent Background</label>
+                    </div>
+
+                    <button id="download-btn" class="primary-btn full-width">DOWNLOAD PNG</button>
+                </div>
+            </aside>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
