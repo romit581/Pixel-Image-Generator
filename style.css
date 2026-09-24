@@ -283,7 +283,10 @@ h1, h2, h3, h4, .logo, .hero-logo {
 ================================================== */
 .editor-section {
     display: grid;
-    grid-template-columns: 240px 1fr 300px;
+    grid-template-columns:
+        240px
+        minmax(0, 1fr)
+        320px;
     gap: 24px;
     flex: 1;
     height: 100%;
@@ -535,13 +538,9 @@ canvas {
    RIGHT ADJUSTMENTS PANEL
 ================================================== */
 .sidebar-right {
-    background-color: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    max-height: calc(100vh - 240px);
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
 }
 
 .sidebar-right .panel-header {
@@ -579,7 +578,56 @@ input[type=range] {
 input[type=range]:focus {
     outline: none;
 }
+.mode-selector {
+    padding: 12px;
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+}
 
+.mode-selector h3 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text);
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 8px 0;
+    background-color: var(--panel-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.mode-btn:hover {
+    background-color: var(--panel-hover);
+}
+
+.mode-btn.active {
+    border-color: var(--accent);
+    background-color: var(--accent-dim);
+    color: var(--accent);
+}
+
+.mode-description {
+    font-size: 11px;
+    color: var(--text-muted);
+}
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: 4px;

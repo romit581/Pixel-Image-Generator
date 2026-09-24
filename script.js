@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imageLoaded: false,
         originalImage: null, // HTMLImageElement
         fileType: 'image/png',
-        fileName: 'image.png',
+        generationMode: 'pixelate', // 'pixelate' or 'reimagine'
         
         // Settings
         pixelSize: 8,
@@ -118,14 +118,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // INITIALIZATION & EVENT LISTENERS
     // ==================================================
     
+    function setMode(mode) {
+        state.generationMode = mode;
+        // Update UI active buttons
+        document.getElementById('mode-pixelate').classList.toggle('active', mode === 'pixelate');
+        document.getElementById('mode-reimagine').classList.toggle('active', mode === 'reimagine');
+        // Update description
+        const desc = document.getElementById('mode-description');
+        if (mode === 'pixelate') {
+            desc.textContent = 'Pixelate: Fast & local';
+            // Hide reimagine controls
+            document.getElementById('reimagine-controls').style.display = 'none';
+        } else {
+            desc.textContent = 'Reimagine: AI‑based generation (may take time)';
+            document.getElementById('reimagine-controls').style.display = 'block';
+        }
+        // Trigger render if pixelate mode
+        if (mode === 'pixelate') {
+            requestRender();
+        }
+    }
+
+    // Bind mode buttons after DOM ready
+    function bindModeButtons() {
+        document.getElementById('mode-pixelate').addEventListener('click', () => setMode('pixelate'));
+        document.getElementById('mode-reimagine').addEventListener('click', () => setMode('reimagine'));
+        // Generate button for reimagine
+        const genBtn = document.getElementById('reimagine-generate');
+        if (genBtn) {
+            genBtn.addEventListener('click', () => {
+                // Show loading state
+                genBtn.disabled = true;
+                genBtn.textContent = 'Generating...';
+                // Simulate async AI call (placeholder)
+                setTimeout(() => {
+                    // For now we just call generatePixelArt as a placeholder
+                    generatePixelArt();
+                    genBtn.disabled = false;
+                    genBtn.textContent = 'GENERATE';
+                }, 1500);
+            });
+        }
+    }
+
+    // Extend init to bind mode buttons
     function init() {
         bindUploadEvents();
         bindControlEvents();
         bindPresetEvents();
         bindCanvasControls();
+        bindModeButtons();
     }
 
-    function bindUploadEvents() {
+    // Modify requestRender to respect generation mode
+    function requestRender() {
+        if (state.generationMode !== 'pixelate') return; // Reimagine renders on button press
+        if (renderTimer) clearTimeout(renderTimer);
+        renderTimer = setTimeout(generatePixelArt, 100);
+    }
+function bindUploadEvents() {
         selectImageBtn.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', handleFileSelect);
         
@@ -220,9 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 c.style.height = '100%';
                 c.style.objectFit = 'cover';
                 setTimeout(() => { c.style.width=''; c.style.height=''; c.style.objectFit='contain'; }, 2000); // Reset after a bit as a demo
-            });
+    });
         });
-    }
+}
+
 
     // ==================================================
     // FILE HANDLING
@@ -272,10 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // CORE RENDERING ENGINE
     // ==================================================
     
-    function requestRender() {
-        if (renderTimer) clearTimeout(renderTimer);
-        renderTimer = setTimeout(generatePixelArt, 100); // 100ms debounce
-    }
+    
 
     function renderOriginal() {
         const img = state.originalImage;
