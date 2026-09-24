@@ -141,6 +141,14 @@
                     <h3>ADJUSTMENTS</h3>
                     <button id="reset-btn" class="text-btn text-accent">RESET</button>
                 </div>
+                <div class="mode-selector">
+                    <h3>GENERATION MODE</h3>
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" id="mode-pixelate">PIXELATE</button>
+                        <button class="mode-btn" id="mode-reimagine">REIMAGINE</button>
+                    </div>
+                    <div class="mode-description" id="mode-description">Pixelate: Fast &amp; local</div>
+                </div>
 
                 <div class="control-group">
                     <label for="pixel-size">Pixel Size: <span id="pixel-size-val">8</span></label>
@@ -165,7 +173,19 @@
                     </select>
                 </div>
 
-                <div class="control-group toggle-group">
+                <div class="control-group toggle-group" id="reimagine-controls" style="display:none;">
+                    <label for="reimagine-style">Reimagine Style</label>
+                    <select id="reimagine-style">
+                        <option value="snes">SNES RPG</option>
+                        <option value="gba">GBA</option>
+                        <option value="dark-fantasy">16-BIT DARK FANTASY</option>
+                        <option value="jrpg">JRPG</option>
+                        <option value="8bit">8-BIT</option>
+                        <option value="sprite">GAME SPRITE</option>
+                        <option value="mono">MONOCHROME</option>
+                        <option value="custom">CUSTOM</option>
+                    </select>
+                </div>>
                     <label for="dithering">Dithering</label>
                     <label class="switch">
                         <input type="checkbox" id="dithering">
